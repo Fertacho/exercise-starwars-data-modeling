@@ -14,12 +14,6 @@ class Users(Base):
     username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250),nullable=False)
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
 
 class Login(Base):
     __tablename__ = 'login'
@@ -32,28 +26,28 @@ class Login(Base):
 class Favorites(Base):
     __tablename__ = 'favorites'
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    character_id = Column(Integer, ForeignKey('charachters.id'))
+    character_name = Column(String(250), ForeignKey('characters.name'))
+    planet_name = Column(String(250), ForeignKey('planets.name'))
+    planet_id = Column(Integer, ForeignKey('planets.id'))
+    user = relationship(Users)
 
 class Characters(Base):
     __tablename__ = 'characters'
     id = Column(Integer, primary_key=True)
     name = Column(String(250),nullable=False)
+    description = Column(String(250),nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship(Users)
 
 class Planets(Base):
     __tablename__ = 'planets'
     id = Column(Integer, primary_key=True)
     name = Column(String(250),nullable=False)
-
-
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    description = Column(String(250),nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship(Users)
 
     def to_dict(self):
         return {}
