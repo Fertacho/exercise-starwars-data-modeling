@@ -15,13 +15,6 @@ class Users(Base):
     email = Column(String(250), nullable=False)
     password = Column(String(250),nullable=False)
 
-class Login(Base):
-    __tablename__ = 'login'
-    id = Column(Integer, primary_key=True)
-    user_email = Column(String(250),ForeignKey('users.email'))
-    user_pass = Column(String(250),ForeignKey('users.password'))
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship(Users)
     
 class Favorites(Base):
     __tablename__ = 'favorites'
@@ -38,16 +31,15 @@ class Characters(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250),nullable=False)
     description = Column(String(250),nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship(Users)
+    
+    
 
 class Planets(Base):
     __tablename__ = 'planets'
     id = Column(Integer, primary_key=True)
     name = Column(String(250),nullable=False)
     description = Column(String(250),nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship(Users)
+    
 
     def to_dict(self):
         return {}
